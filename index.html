@@ -315,6 +315,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interfaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#core-components" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -571,6 +582,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interfaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#core-components" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -613,7 +635,8 @@
 
 
 <h1 id="aware">Aware</h1>
-<p>Aware is a minimal <strong>Assess</strong> prototype for telemetry-based root-cause analysis. It combines a Parser agent, an Executor agent, dynamic analysis sub-agents, and a small web UI to turn an incident question into a validated BuildSpec and an execution report.</p>
+<p>Aware is a minimal <strong>Assess</strong> prototype for telemetry-based root-cause analysis. It combines a Parser agent, an Executor agent, and dynamic analysis sub-agents to turn an incident question into a validated BuildSpec and an execution report.</p>
+<p>The primary interface is the <code>aware</code> CLI. A lightweight web UI is also available for live inspection of agent events and structured outputs.</p>
 <p>The project focuses on a clear runtime flow:</p>
 <ul>
 <li>parse the user request into a BuildSpec</li>
@@ -629,6 +652,25 @@
 <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-supported-009688?style=flat&amp;logo=fastapi&amp;logoColor=white" />
 <img alt="Pydantic" src="https://img.shields.io/badge/Pydantic-2.x-E92063?style=flat&amp;logo=pydantic&amp;logoColor=white" />
 <img alt="SQLite" src="https://img.shields.io/badge/SQLite-supported-003B57?style=flat&amp;logo=sqlite&amp;logoColor=white" /></p>
+<h2 id="interfaces">Interfaces</h2>
+<table>
+<thead>
+<tr>
+<th>Interface</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLI</td>
+<td>Running parser-only, executor-only, or full assessment workflows from a terminal.</td>
+</tr>
+<tr>
+<td>Web UI</td>
+<td>Watching live agent events and reviewing structured outputs interactively.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="core-components">Core Components</h2>
 <table>
 <thead>
