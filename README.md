@@ -1,5 +1,14 @@
 # AWARE Assess ADK MVP
 
+![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?style=flat&logo=python&logoColor=white)
+![Google ADK](https://img.shields.io/badge/Google%20ADK-enabled-4285F4?style=flat&logo=google&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-enabled-412991?style=flat&logo=openai&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-supported-009688?style=flat&logo=fastapi&logoColor=white)
+![Pydantic](https://img.shields.io/badge/Pydantic-2.x-E92063?style=flat&logo=pydantic&logoColor=white)
+![Typer](https://img.shields.io/badge/Typer-CLI-111827?style=flat)
+![SQLite](https://img.shields.io/badge/SQLite-supported-003B57?style=flat&logo=sqlite&logoColor=white)
+![Pytest](https://img.shields.io/badge/Pytest-ready-0A9EDC?style=flat&logo=pytest&logoColor=white)
+
 Minimal **Assess** prototype for AWARE (Parser + Executor), with explicit separation:
 
 - `tools/` for file/data handling
@@ -197,3 +206,7 @@ export AWARE_PARSER_KB_FILE=/path/to/my_kb.md
 ```bash
 pytest -q
 ```
+
+## Support
+
+Questions, ideas, or collaborations are welcome. Feel free to reach out: brell.sanwouo@inria.fr | sanwouobrell@gmail.com
