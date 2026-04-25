@@ -207,6 +207,25 @@ export AWARE_PARSER_KB_FILE=/path/to/my_kb.md
 pytest -q
 ```
 
+## Citation
+
+If you use this project in your research, please cite:
+
+```bibtex
+@inproceedings{sanwouo:hal-05402186,
+  TITLE = {{Dynamic Agent Generation for Self-Adaptive Root Cause Analysis}},
+  AUTHOR = {Sanwouo, Brell and Temple, Paul and Quinton, Cl{\'e}ment},
+  URL = {https://hal.science/hal-05402186},
+  BOOKTITLE = {{SEAMS'26 - 21st International Conference on Software Engineering for Adaptive and Self-Managing Systems}},
+  ADDRESS = {Rio de Janeiro, Brazil},
+  YEAR = {2026},
+  MONTH = Apr,
+  PDF = {https://hal.science/hal-05402186v1/file/SEAMS26.pdf},
+  HAL_ID = {hal-05402186},
+  HAL_VERSION = {v1},
+}
+```
+
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE).
