@@ -1,0 +1,44 @@
+site_name: Aware
+site_description: AWARE Assess documentation
+site_url: https://brellsanwouo.github.io/Aware/
+repo_url: https://github.com/brellsanwouo/Aware
+repo_name: brellsanwouo/Aware
+
+theme:
+  name: material
+  language: en
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: teal
+      accent: cyan
+
+nav:
+  - Overview: index.md
+  - Getting Started: getting-started.md
+  - Usage: usage.md
+  - Web UI: ui.md
+  - Architecture: architecture.md
+  - Configuration: configuration.md
+  - Outputs: outputs.md
+  - Support: support.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+
+plugins:
+  - search
