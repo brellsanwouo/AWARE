@@ -1,14 +1,14 @@
 # AWARE Assess ADK MVP
 
-Prototype minimal **Assess** pour AWARE (Parser + Executor), avec séparation explicite:
+Minimal **Assess** prototype for AWARE (Parser + Executor), with explicit separation:
 
-- `tools/` pour la manipulation fichiers/données
-- `templates/` pour les templates d'agents à instancier
-- agents ADK minimaux (`ParserAgent`, `ExecutorAgent`, sous-agents dynamiques)
-- LLM utilisé comme cerveau décisionnel (Parser et sous-agents Executor)
-- filtrage strict des analyses sur `failure_time_range_ts`
+- `tools/` for file/data handling
+- `templates/` for agent templates to instantiate
+- minimal ADK agents (`ParserAgent`, `ExecutorAgent`, dynamic sub-agents)
+- LLM used as the decision engine (Parser and Executor sub-agents)
+- strict analysis filtering on `failure_time_range_ts`
 
-## Installation
+## Setup
 
 ```bash
 python3.11 -m venv .venv
@@ -16,14 +16,14 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-Créer ton `.env` local:
+Create your local `.env`:
 
 ```bash
 cp .env.example .env
-# ou utilise le .env déjà présent et remplis OPENAI_API_KEY
+# or use the existing .env and fill in OPENAI_API_KEY
 ```
 
-## Lancement
+## Run
 
 ```bash
 aware parse \
@@ -31,7 +31,7 @@ aware parse \
   --repo /agentfactory/data/Bank/telemetry/2021_03_04
 ```
 
-Exécuter l'étape Executor à partir d'un BuildSpec existant:
+Run the Executor step from an existing BuildSpec:
 
 ```bash
 aware execute \
@@ -39,7 +39,7 @@ aware execute \
   --repo /path/to/repository
 ```
 
-Parser + Executor en une seule commande:
+Parser + Executor in a single command:
 
 ```bash
 aware assess \
@@ -49,54 +49,54 @@ aware assess \
 
 ## UI Conversation Live
 
-Lance l'UI:
+Start the UI:
 
 ```bash
 aware ui --host 127.0.0.1 --port 8787
 ```
 
-Puis ouvre:
+Then open:
 
 ```text
 http://127.0.0.1:8787
 ```
 
-Dans l'UI:
-- tu entres la requête utilisateur
-- tu entres le chemin repository
-- tu lances `Run Assess` (Parser + Executor)
-- tu vois la conversation live:
-  - init parser
-  - réflexion / tentative LLM
+In the UI:
+- enter the user query
+- enter the repository path
+- start `Run Assess` (Parser + Executor)
+- watch the live conversation:
+  - parser initialization
+  - reasoning / LLM attempt
   - validation
-  - correction si invalide
-  - exécution Executor (LogsAgent / TraceAgent / MetricsAgent)
-  - succès final + sortie JSON complète
+  - correction if invalid
+  - Executor run (LogsAgent / TraceAgent / MetricsAgent)
+  - final success + full JSON output
 
 ## Architecture Runtime
 
-### 1) Templates d'agents (instanciation dynamique)
+### 1) Agent Templates (Dynamic Instantiation)
 
-Les sous-agents Executor sont définis dans:
+Executor sub-agents are defined in:
 
 - `templates/assess_templates.py`
 
-Chaque template définit:
+Each template defines:
 
 - `agent_name`
 - `role`
 - `objective`
-- `target_field` du BuildSpec
-- `tools` à utiliser
+- BuildSpec `target_field`
+- `tools` to use
 - `domain`
 
-### 2) Tools (manipulation de données)
+### 2) Tools (Data Handling)
 
-Les opérations de lecture/fenêtrage/parse sont dans:
+Read/window/parse operations are in:
 
 - `tools/telemetry_tools.py`
 
-Exemples:
+Examples:
 
 - `load_csv_window`
 - `build_llm_observation_context`
@@ -104,92 +104,92 @@ Exemples:
 - `sample_matching_lines`
 - `max_numeric_column`
 
-### 3) Agents minimaux + LLM décideur
+### 3) Minimal Agents + LLM Decision Engine
 
-`ExecutorAgent` instancie les sous-agents à partir des templates.
+`ExecutorAgent` instantiates sub-agents from the templates.
 
-Chaque sous-agent:
+Each sub-agent:
 
-- exécute les tools sur son fichier cible
-- construit un contexte compact des observations
-- demande au LLM de décider des findings
-- retombe sur un fallback heuristique si la réponse LLM est invalide
+- runs tools on its target file
+- builds a compact observation context
+- asks the LLM to decide the findings
+- falls back to a heuristic path if the LLM response is invalid
 
-Implémentation:
+Implementation:
 
 - `agents/executor_agent.py`
 
-Chaque run est sauvegardé automatiquement dans:
+Each run is automatically saved in:
 - `output/json/<timestamp>_<run_id>.json`
 - `output/txt/<timestamp>_<run_id>.txt`
 
 ## Knowledge DB (SQLite)
 
-Les informations des sous-agents (Executor) sont stockées dans une base SQLite:
+Executor sub-agent information is stored in a SQLite database:
 - table `runs`
 - table `events`
 - table `task_results`
 - table `findings`
 
-DB par défaut:
+Default DB:
 - `sqlite:///output/assess.db`
 
-Tu peux surcharger:
-- UI: champ `DB URL`
+You can override it with:
+- UI: `DB URL` field
 - CLI: `--db-url sqlite:///...`
 
 ## Provider LLM
 
 - OpenAI uniquement (`openai-compatible`).
 
-Variables `.env` utiles:
+Useful `.env` variables:
 
 - `OPENAI_API_KEY`
-- `OPENAI_BASE_URL` (optionnel, défaut: `https://api.openai.com/v1`)
-- `OPENAI_MODEL` (optionnel, défaut: `gpt-5-mini`)
+- `OPENAI_BASE_URL` (optional, default: `https://api.openai.com/v1`)
+- `OPENAI_MODEL` (optional, default: `gpt-5-mini`)
 - `PARSER_MAX_ATTEMPTS`
-- `AWARE_PARSER_KB_FILE` (optionnel, défaut: `knowledge/parser_buildspec_kb.md`)
-- `AWARE_EXECUTOR_KB_FILE` (optionnel, défaut: `knowledge/executor_rca_kb.md`)
-- `EXECUTOR_MAX_AGENTS` (optionnel: limite globale de sous-agents instanciés)
-  - défaut recommandé V1: `5`
-- `AWARE_ENABLE_REASONING` (`true|false`, défaut `true`)
-  - `false`: le LLM reste utilisé, mais en mode raisonnement rapide (prompts plus directs)
-- `AWARE_ENABLE_MEMORY` (`true|false`, défaut `true`)
-  - `false`: désactive la mémoire partagée inter-agents et l'écriture des résultats d'agents en SQLite
+- `AWARE_PARSER_KB_FILE` (optional, default: `knowledge/parser_buildspec_kb.md`)
+- `AWARE_EXECUTOR_KB_FILE` (optional, default: `knowledge/executor_rca_kb.md`)
+- `EXECUTOR_MAX_AGENTS` (optional: global limit for instantiated sub-agents)
+  - recommended V1 default: `5`
+- `AWARE_ENABLE_REASONING` (`true|false`, default `true`)
+  - `false`: the LLM is still used, but in fast reasoning mode (more direct prompts)
+- `AWARE_ENABLE_MEMORY` (`true|false`, default `true`)
+  - `false`: disables shared inter-agent memory and SQLite writes for agent results
 
-### Note BuildSpec (fichiers multiples)
+### BuildSpec Note (Multiple Files)
 
-Le BuildSpec accepte désormais plusieurs fichiers par domaine:
+BuildSpec now accepts multiple files per domain:
 
-- `absolute_log_file`: liste de chemins absolus
-- `absolute_trace_file`: liste de chemins absolus
-- `absolute_metrics_file`: liste de chemins absolus
+- `absolute_log_file`: list of absolute paths
+- `absolute_trace_file`: list of absolute paths
+- `absolute_metrics_file`: list of absolute paths
 
-## Base de Connaissance (fichier séparé)
+## Knowledge Base (Separate File)
 
-Le ParserAgent charge ses instructions BuildSpec depuis un fichier externe:
+`ParserAgent` loads its BuildSpec instructions from an external file:
 
 - `knowledge/parser_buildspec_kb.md`
 
-Ce fichier contient:
-- le mapping `task_1..task_7`
-- le contrat BuildSpec
-- les règles de normalisation
-- les règles de sélection de fichiers (log/trace/metrics)
+This file contains:
+- the `task_1..task_7` mapping
+- the BuildSpec contract
+- normalization rules
+- file selection rules (log/trace/metrics)
 
-L'ExecutorAgent charge aussi sa base de connaissance:
+`ExecutorAgent` also loads its knowledge base:
 
 - `knowledge/executor_rca_kb.md`
 
-Ce fichier contient:
-- les composants/réasons possibles
-- la structure des fichiers telemetry (header + unités timestamp)
-- les règles d'analyse pour éviter les faux composants (ex: nom de fichier)
+This file contains:
+- possible components/reasons
+- telemetry file structure (header + timestamp units)
+- analysis rules to avoid false components (for example, file name)
 
-Tu peux pointer un autre fichier via:
+You can point to another file with:
 
 ```bash
-export AWARE_PARSER_KB_FILE=/chemin/vers/mon_kb.md
+export AWARE_PARSER_KB_FILE=/path/to/my_kb.md
 ```
 
 ## Tests
