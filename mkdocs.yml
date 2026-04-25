@@ -29,6 +29,7 @@ nav:
   - Architecture: architecture.md
   - Configuration: configuration.md
   - Outputs: outputs.md
+  - Credits: credits.md
   - Support: support.md
 
 markdown_extensions:
