@@ -207,6 +207,10 @@ export AWARE_PARSER_KB_FILE=/path/to/my_kb.md
 pytest -q
 ```
 
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
+
 ## Support
 
 Questions, ideas, or collaborations are welcome. Feel free to reach out: brell.sanwouo@inria.fr | sanwouobrell@gmail.com

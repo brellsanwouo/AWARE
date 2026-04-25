@@ -30,6 +30,7 @@ nav:
   - Configuration: configuration.md
   - Outputs: outputs.md
   - Credits: credits.md
+  - License: license.md
   - Support: support.md
 
 markdown_extensions:
