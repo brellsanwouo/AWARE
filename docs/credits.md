@@ -8,8 +8,10 @@ This project is associated with the following paper:
 
 ## Contributors
 
-- Clément Quinton
-- Paul Temple
+| Contributor | Website | Email |
+| --- | --- | --- |
+| Clément Quinton | [clementquinton.github.io](https://clementquinton.github.io/) | [clement.quinton@univ-lille.fr](mailto:clement.quinton@univ-lille.fr) |
+| Paul Temple | [templep.github.io](https://templep.github.io/) | [paul.temple@irisa.fr](mailto:paul.temple@irisa.fr) |
 
 ## Acknowledgements
 
